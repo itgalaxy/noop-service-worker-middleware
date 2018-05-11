@@ -14,6 +14,10 @@ Returns Express middleware that serves a service worker that resets any previous
 npm i -D noop-service-worker-middleware
 ```
 
+**NOTE:**
+`noop-service-worker-middleware@1` support only `express` (includes `webpack-dev-server`).
+`noop-service-worker-middleware@2` support only `koa` (includes `webpack-serve`).
+
 ## API
 
 ```js
@@ -39,27 +43,36 @@ app.use(noopServiceWorkerMiddleware("/custom-service-worker.js"));
 Simple app:
 
 ```js
-const express = require("express");
-const noopServiceWorkerMiddleware = require("noop-service-worker-middleware");
+const Koa = require("koa");
+const Router = require("koa-router");
+const noopServiceWorkerMiddleware = require("..");
 
-const app = express();
+const app = new Koa();
+const router = new Router();
 
 app.use(noopServiceWorkerMiddleware());
+app.use(noopServiceWorkerMiddleware("/custom-service-worker.js"));
 
-app.get("/", function(req, res) {
-  res.send("hello, world!");
+router.get("/", (ctx, next) => {
+  ctx.body = "Hello World!";
+
+  return next();
 });
+
+app.use(router.routes()).listen(8080);
+
+module.exports = app;
 ```
 
-[webpack-dev-server](https://github.com/webpack/webpack-dev-server):
+[webpack-serve](https://github.com/webpack-contrib/webpack-serve):
 
 ```js
 const noopServiceWorkerMiddleware = require("noop-service-worker-middleware");
 
 module.exports = {
   // ...
-  devServer: {
-    before(app, server) {
+  serve: {
+    add(app) {
       app.use(noopServiceWorkerMiddleware());
     }
     // ...
