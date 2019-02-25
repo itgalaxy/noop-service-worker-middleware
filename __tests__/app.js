@@ -1,19 +1,13 @@
-const Koa = require("koa");
-const Router = require("koa-router");
+const express = require("express");
 const noopServiceWorkerMiddleware = require("..");
 
-const app = new Koa();
-const router = new Router();
+const app = express();
 
 app.use(noopServiceWorkerMiddleware());
 app.use(noopServiceWorkerMiddleware("/custom-service-worker.js"));
 
-router.get("/", (ctx, next) => {
-  ctx.body = "Hello World!";
-
-  return next();
+app.get("/", (req, res) => {
+  res.status(200).send("Hello World!");
 });
-
-app.use(router.routes());
 
 module.exports = app;

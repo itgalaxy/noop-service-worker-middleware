@@ -14,10 +14,6 @@ Returns Express middleware that serves a service worker that resets any previous
 npm i -D noop-service-worker-middleware
 ```
 
-**NOTE:**
-`noop-service-worker-middleware@1` support only `express` (includes `webpack-dev-server`).
-`noop-service-worker-middleware@2` support only `koa` (includes `webpack-serve`).
-
 ## API
 
 ```js
@@ -40,39 +36,30 @@ app.use(noopServiceWorkerMiddleware("/custom-service-worker.js"));
 
 ## Examples
 
-Simple app:
+### Simple
 
 ```js
-const Koa = require("koa");
-const Router = require("koa-router");
-const noopServiceWorkerMiddleware = require("..");
+const express = require("express");
+const noopServiceWorkerMiddleware = require("noop-service-worker-middleware");
 
-const app = new Koa();
-const router = new Router();
+const app = express();
 
 app.use(noopServiceWorkerMiddleware());
-app.use(noopServiceWorkerMiddleware("/custom-service-worker.js"));
 
-router.get("/", (ctx, next) => {
-  ctx.body = "Hello World!";
-
-  return next();
+app.get("/", (req, res) => {
+  res.send("hello, world!");
 });
-
-app.use(router.routes()).listen(8080);
-
-module.exports = app;
 ```
 
-[webpack-serve](https://github.com/webpack-contrib/webpack-serve):
+### Webpack Dev Server
 
 ```js
 const noopServiceWorkerMiddleware = require("noop-service-worker-middleware");
 
 module.exports = {
   // ...
-  serve: {
-    add(app) {
+  devServer: {
+    before(app, server) {
       app.use(noopServiceWorkerMiddleware());
     }
     // ...
@@ -83,8 +70,12 @@ module.exports = {
 
 ## Thanks
 
-* [create-react-app](https://github.com/facebookincubator/create-react-app) - inspiration.
+- [create-react-app](https://github.com/facebookincubator/create-react-app) - inspiration.
 
-## [Changelog](CHANGELOG.md)
+## Changelog
 
-## [License](LICENSE)
+[Changelog](CHANGELOG.md)
+
+## License
+
+[MIT](./LICENSE)

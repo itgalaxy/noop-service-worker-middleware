@@ -1,12 +1,10 @@
 {
   "name": "noop-service-worker-middleware",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Returns Express middleware that serves a service worker that resets any previously set service worker configuration. Useful for development.",
   "keywords": [
     "express",
-    "koa",
     "middleware",
-    "webpack-serve",
     "webpack-dev-server",
     "service-worker",
     "cache",
@@ -21,40 +19,42 @@
   "homepage": "https://github.com/itgalaxy/noop-service-worker-middleware",
   "bugs": "https://github.com/itgalaxy/noop-service-worker-middleware/issues",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "dependencies": {},
   "devDependencies": {
-    "babel-eslint": "^8.2.3",
-    "eslint": "^4.1.1",
-    "eslint-plugin-ava": "^4.2.1",
-    "eslint-plugin-import": "^2.6.0",
-    "eslint-plugin-itgalaxy": "^67.0.0",
-    "eslint-plugin-jest": "^21.1.0",
-    "eslint-plugin-jsx-a11y": "^6.0.0",
-    "eslint-plugin-lodash": "^2.4.3",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-prettier": "^2.1.2",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^7.1.0",
-    "eslint-plugin-unicorn": "^4.0.3",
-    "koa": "^2.5.1",
-    "koa-router": "^7.4.0",
-    "jest": "^22.0.3",
-    "husky": "^0.14.1",
-    "lint-staged": "^7.0.0",
-    "npm-run-all": "^4.0.1",
-    "npmpub": "^3.1.0",
-    "prettier": "^1.5.2",
-    "remark-cli": "^5.0.0",
-    "remark-preset-lint-itgalaxy": "^12.0.0",
-    "got": "^8.3.1"
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.14.1",
+    "eslint-plugin-ava": "^5.1.1",
+    "eslint-plugin-html": "^5.0.3",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-itgalaxy": "^98.0.0",
+    "eslint-plugin-jest": "^22.3.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-lodash": "^5.1.0",
+    "eslint-plugin-markdown": "^1.0.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-unicorn": "^7.1.0",
+    "express": "^4.16.2",
+    "got": "^8.3.2",
+    "jest": "^24.1.0",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.4",
+    "npm-run-all": "^4.1.5",
+    "npmpub": "^4.1.0",
+    "prettier": "^1.16.4",
+    "remark-cli": "^6.0.1",
+    "remark-preset-lint-itgalaxy": "^14.0.0"
   },
   "scripts": {
-    "precommit": "lint-staged",
-    "lint:eslint": "eslint --cache --report-unused-disable-directives . --ignore-path .gitignore",
-    "lint:remark": "remark . -i .gitignore -f -q",
-    "lint:prettify": "prettier --list-different '{lib,__tests__}/**/*.{js,mjs,jsx,md}' '*.{js,mjs,jsx,md}'",
+    "lint:prettier": "prettier --list-different '{lib,__tests__}/**/*.{js,mjs,jsx,md}' '*.{js,mjs,jsx,md}'",
+    "lint:js": "eslint . --cache --report-unused-disable-directives --ignore-path .gitignore --ext 'js,.mjs,.jsx,.md'",
+    "lint:md": "remark . -i .gitignore -f -q",
     "lint": "npm-run-all -l -p lint:**",
-    "prettify": "npm run lint:prettify -- --write",
+    "prettify": "npm run lint:prettier -- --write",
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix": "npm-run-all -l prettify 'fix:**'",
     "pretest": "npm run lint",
@@ -62,41 +62,7 @@
     "test-only": "jest **/*.test.js --coverage",
     "release": "npmpub"
   },
-  "eslintConfig": {
-    "parserOptions": {
-      "sourceType": "script"
-    },
-    "extends": [
-      "plugin:itgalaxy/jest",
-      "plugin:itgalaxy/esnext",
-      "plugin:itgalaxy/node"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/__tests__/**/*.js"
-        ],
-        "parserOptions": {
-          "sourceType": "module"
-        },
-        "rules": {
-          "node/no-unsupported-features": "off"
-        }
-      }
-    ],
-    "root": true
-  },
-  "remarkConfig": {
-    "plugins": [
-      "remark-preset-lint-itgalaxy"
-    ]
-  },
   "engines": {
-    "node": ">= 6.9.0 || >= 8.9.0"
-  },
-  "files": [
-    "LICENSE",
-    "CHANGELOG.md",
-    "index.js"
-  ]
+    "node": ">= 6.9.0"
+  }
 }
